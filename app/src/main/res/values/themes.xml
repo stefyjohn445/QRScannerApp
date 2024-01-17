@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.QRScannerApplication" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/puerto_rico</item>
+        <item name="colorPrimaryVariant">@color/puerto_rico</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/puerto_rico</item>
+        <item name="colorSecondaryVariant">@color/puerto_rico</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="actionBarStyle">@style/Widget.MaterialComponents.ActionBar.Primary</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>>
+    </style>
+
+    <style name="Theme.QRScannerApplication" parent="Base.Theme.QRScannerApplication" />
+</resources>

@@ -93,12 +93,13 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler,  Bluet
                 // You might want to display it in a TextView or perform further actions
                 // For now, let's print it to log
 
-                val extractedSSID = extractSSIDFromQRCode(ssid)
+//                val extractedSSID = extractSSIDFromQRCode(ssid)
 
                 // Display the extracted SSID in editTextSSID
                 val editTextSSID = findViewById<EditText>(R.id.editTextSSID)
                 val editTextPassword = findViewById<EditText>(R.id.editTextPassword)
-                editTextSSID.setText(extractedSSID)
+//                editTextSSID.setText(extractedSSID)
+//                editTextSSID.setText(extractedSSID)
 
                 Toast.makeText(this, "SSID: $ssid", Toast.LENGTH_SHORT).show()
                 println("SSID from QR Code: $ssid")
@@ -106,7 +107,7 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler,  Bluet
                 editTextPassword.setText("copernicus")
 
                 // Connect to BLE device and send QR code text
-                bluetoothManager.connectToDevice("your_ble_device_address")
+//                bluetoothManager.connectToDevice("your_ble_device_address")
                 bluetoothManager.sendQRCodeText(ssid)
 
             } else {
@@ -120,10 +121,26 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler,  Bluet
     }
 
     private fun extractSSIDFromQRCode(qrCodeText: String): String {
+        // Use regex to find the pattern after the last '/'
+//        val regex = Regex("/([^/]+)\$")
+//        val matchResult = regex.find(qrCodeText)
+//
+//        // Extract the matched group or return an empty string if not found
+//        return matchResult?.groupValues?.getOrNull(1) ?: ""
+
+//        val pattern = Pattern.compile("/([A-Z]+)\\d+/\\d+[A-Z]$")
+//        val matcher = pattern.matcher(qrCodeText)
+
         val secondLastSlashIndex = qrCodeText.lastIndexOf("/", qrCodeText.lastIndexOf("/") - 1)
         val targetString = qrCodeText.substring(secondLastSlashIndex - 5, secondLastSlashIndex)
+
         println(targetString)
         return targetString
+//        return if (matcher.find()) {
+//            matcher.group(1)
+//        } else {
+//            "pmkg"
+//        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, grantResults: IntArray) {

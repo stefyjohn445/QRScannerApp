@@ -14,15 +14,18 @@ import com.google.zxing.Result
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 import java.util.regex.Pattern
 
-class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
+class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler,  BluetoothPermissionCallback {
 
     private val CAMERA_PERMISSION_REQUEST = 100
     private lateinit var scannerView: ZXingScannerView
     private lateinit var scannerText: TextView
+    private lateinit var bluetoothManager: BluetoothManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        bluetoothManager = BluetoothManager(this, this)
 
 //        scannerView = ZXingScannerView(this)
         scannerView = findViewById(R.id.scannerView)
@@ -101,6 +104,11 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                 println("SSID from QR Code: $ssid")
                 scannerText.text = ssid
                 editTextPassword.setText("copernicus")
+
+                // Connect to BLE device and send QR code text
+                bluetoothManager.connectToDevice("your_ble_device_address")
+                bluetoothManager.sendQRCodeText(ssid)
+
             } else {
                 println("SSID empty")
                 // Handle empty SSID
@@ -112,25 +120,13 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     }
 
     private fun extractSSIDFromQRCode(qrCodeText: String): String {
-        // Use regex to find the pattern after the last '/'
-//        val regex = Regex("/([^/]+)\$")
-//        val matchResult = regex.find(qrCodeText)
-//
-//        // Extract the matched group or return an empty string if not found
-//        return matchResult?.groupValues?.getOrNull(1) ?: ""
-
-//        val pattern = Pattern.compile("/([A-Z]+)\\d+/\\d+[A-Z]$")
-//        val matcher = pattern.matcher(qrCodeText)
-
         val secondLastSlashIndex = qrCodeText.lastIndexOf("/", qrCodeText.lastIndexOf("/") - 1)
         val targetString = qrCodeText.substring(secondLastSlashIndex - 5, secondLastSlashIndex)
-
         println(targetString)
         return targetString
-//        return if (matcher.find()) {
-//            matcher.group(1)
-//        } else {
-//            "pmkg"
-//        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, grantResults: IntArray) {
+        bluetoothManager.onRequestPermissionsResult(requestCode, grantResults)
     }
 }
